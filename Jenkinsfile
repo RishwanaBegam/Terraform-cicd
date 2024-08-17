@@ -9,7 +9,8 @@ pipeline{
   stages{
     stage(Checkout){
        steps {
-                  git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
+         checkout scm         
+         //git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
     stage('Check Terraform Version') {
@@ -17,8 +18,7 @@ pipeline{
                 sh 'terraform version'
             }
         }
-    }
-}
+    
     stage('Terraform Initialization'){
      when {
                 expression { return params.Terraform_Init }
