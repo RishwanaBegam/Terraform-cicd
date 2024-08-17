@@ -9,8 +9,8 @@ pipeline{
   stages{
     stage(Checkout){
        steps {
-         checkout scm         
-         //git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
+         //checkout scm         
+         git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
     stage('Check Terraform Version') {
