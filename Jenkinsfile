@@ -12,6 +12,13 @@ pipeline{
                   git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
+    stage('Check Terraform Version') {
+            steps {
+                sh 'terraform version'
+            }
+        }
+    }
+}
     stage('Terraform Initialization'){
      when {
                 expression { return params.Terraform_Init }
