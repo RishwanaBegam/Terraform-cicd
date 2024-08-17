@@ -1,9 +1,9 @@
 pipeline{
   parameters{
-     boolean (name:'Terraform_Init', defaultValue: false, description:'Initialize the terraform configuration')
-     boolean (name:'Terraform_Plan', defaultValue: false, description:'Plan the terraform configuration')
-     boolean (name:'Terraform_Apply', defaultValue: false, description:'Apply the terraform configuration')
-     boolean (name:'Terraform_Destroy', defaultValue: false, description:'Destroy the terraform configuration')
+     booleanParam (name:'Terraform_Init', defaultValue: false, description:'Initialize the terraform configuration')
+     booleanParam (name:'Terraform_Plan', defaultValue: false, description:'Plan the terraform configuration')
+     booleanParam (name:'Terraform_Apply', defaultValue: false, description:'Apply the terraform configuration')
+     booleanParam (name:'Terraform_Destroy', defaultValue: false, description:'Destroy the terraform configuration')
   }
   agent any
   stages{
