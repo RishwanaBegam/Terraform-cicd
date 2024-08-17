@@ -12,6 +12,15 @@ pipeline{
                   git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
+    stage('Install Terraform') {
+            steps {
+                sh 'curl -O https://releases.hashicorp.com/terraform/latest/terraform_latest_linux_amd64.zip'
+                sh 'unzip terraform_latest_linux_amd64.zip'
+                sh 'sudo mv terraform /usr/local/bin/'
+                sh 'terraform --version'
+                echo '___________________________________Installation completed_______________________________________'
+            }
+        }
     stage('Terraform Initialization'){
      when {
                 expression { return params.Terraform_Init }
@@ -28,7 +37,7 @@ pipeline{
             }
       steps{
         echo 'Showing execution plan information...'
-        sh 'terraform plan'
+         sh 'terraform -chdir=Terraform/ plan'
       }
     }
     stage('Terraform apply'){
@@ -36,7 +45,7 @@ pipeline{
                 expression { return params.Terraform_Apply }
             }
       steps{
-        sh 'terraform apply'
+         sh 'terraform -chdir=Terraform/ apply'
         echo 'Executing the configuration to create infrastructure in AWS :)'
       }
     }
@@ -45,7 +54,7 @@ pipeline{
                 expression { return params.Terraform_Destroy }
             }
       steps{
-        sh 'terraform destroy'
+        sh 'terraform -chdir=Terraform/ destroy'
         echo ' Deleting the infrastructure in AWS !'
       }
     }
