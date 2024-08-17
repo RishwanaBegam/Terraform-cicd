@@ -13,26 +13,39 @@ pipeline{
             }
     }
     stage(Terraform Initialization){
-      when {
-        params.Terraform_Action
-      }
-      steps{
-        sh 'terraform init' 
-      }
-    }
+     when {
+                expression { return params.Terraform_Init }
+            }
+            steps {
+                echo 'Initializing Terraform...'
+                 sh 'terraform init' 
+            }
+        }
     stage(Terraform Plan){
+      when {
+                expression { return params.Terraform_Plan }
+            }
       steps{
+        echo 'Showing execution plan information...'
         sh 'terraform plan'
       }
     }
     stage(Terraform apply){
+      when {
+                expression { return params.Terraform_Apply }
+            }
       steps{
         sh 'terraform apply'
+        echo 'Executing the configuration to create infrastructure in AWS :)'
       }
     }
     stage(Terraform destroy){
+      when {
+                expression { return params.Terraform_Destroy }
+            }
       steps{
         sh 'terraform destroy'
+        echo ' Deleting the infrastructure in AWS !'
       }
     }
 }
