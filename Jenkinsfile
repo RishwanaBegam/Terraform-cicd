@@ -9,8 +9,7 @@ pipeline{
   stages{
     stage(Checkout){
        steps {
-         scm
-                //git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
+                  git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
     stage('Terraform Initialization'){
