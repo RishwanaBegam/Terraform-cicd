@@ -15,6 +15,8 @@ pipeline{
     stage('Install Terraform') {
             steps {
                 sh 'curl -O https://releases.hashicorp.com/terraform/latest/terraform_latest_linux_amd64.zip'
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install -y unzip'
                 sh 'unzip terraform_latest_linux_amd64.zip'
                 sh 'sudo mv terraform /usr/local/bin/'
                 sh 'terraform --version'
