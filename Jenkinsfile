@@ -12,7 +12,7 @@ pipeline{
                 git branch: 'master', credentialsId: 'Terraform-login-private-key', url: 'https://github.com/RishwanaBegam/test.git'
             }
     }
-    stage(Terraform Initialization){
+    stage('Terraform Initialization'){
      when {
                 expression { return params.Terraform_Init }
             }
@@ -21,7 +21,7 @@ pipeline{
                  sh 'terraform init' 
             }
         }
-    stage(Terraform Plan){
+    stage('Terraform Plan'){
       when {
                 expression { return params.Terraform_Plan }
             }
@@ -30,7 +30,7 @@ pipeline{
         sh 'terraform plan'
       }
     }
-    stage(Terraform apply){
+    stage('Terraform apply'){
       when {
                 expression { return params.Terraform_Apply }
             }
@@ -39,7 +39,7 @@ pipeline{
         echo 'Executing the configuration to create infrastructure in AWS :)'
       }
     }
-    stage(Terraform destroy){
+    stage('Terraform destroy'){
       when {
                 expression { return params.Terraform_Destroy }
             }
