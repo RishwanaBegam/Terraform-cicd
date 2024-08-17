@@ -17,10 +17,8 @@ pipeline{
                 expression { return params.Terraform_Init }
             }
             steps {
-              withAWS(credentials: 'aws-login', region: 'us-east-1'){
                 echo 'Initializing Terraform...'
-                sh 'terraform -chdir=Terraform/ init'
-              }
+                sh ''' terraform -chdir=Terraform/ init '''
             }
         }
     stage('Terraform Plan'){
