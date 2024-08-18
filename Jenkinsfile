@@ -53,7 +53,7 @@ pipeline{
       steps{
         script{
         withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
-         sh 'terraform -chdir=Terraform/ apply'
+         sh 'terraform -chdir=Terraform/ apply -auto-approve'
         echo 'Executing the configuration to create infrastructure in AWS :)'
       }
     }
@@ -69,4 +69,9 @@ pipeline{
       }
     }
 }
+  post {
+        always {
+            cleanWs()
+        }
+    }
 }
