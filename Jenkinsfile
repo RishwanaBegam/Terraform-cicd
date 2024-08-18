@@ -6,9 +6,10 @@ pipeline{
      booleanParam (name:'Terraform_Destroy', defaultValue: false, description:'Destroy the terraform configuration')
   }
   agent any
-   //environment {
+   environment {
      //   AWS_CREDS = credentials('aws-access-key-secret-ID')
-    //}
+          AWS_REGION = 'us-east-1'
+    }
   stages{
     stage(Checkout){
        steps {
@@ -36,10 +37,13 @@ pipeline{
                 expression { return params.Terraform_Plan }
             }
       steps{
-        
-        echo 'Showing execution plan information...'
-        withAWS(credentials: 'aws-access-key-secret-ID', region: 'us-east-1')
-         sh 'terraform -chdir=Terraform/ plan'
+
+       script {
+                   withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
+                   echo 'Showing execution plan information...'
+                   sh 'terraform -chdir=Terraform/ plan'
+            }
+        }
       }
     }
     stage('Terraform apply'){
@@ -47,8 +51,12 @@ pipeline{
                 expression { return params.Terraform_Apply }
             }
       steps{
+        script{
+        withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
          sh 'terraform -chdir=Terraform/ apply'
         echo 'Executing the configuration to create infrastructure in AWS :)'
+      }
+    }
       }
     }
     stage('Terraform destroy'){
