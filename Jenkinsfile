@@ -67,7 +67,7 @@ pipeline{
       steps{
         script{
         withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
-        sh 'terraform -chdir=Terraform/ destroy'
+        sh 'terraform -chdir=Terraform/ destroy -auto-approve'
         echo ' Deleting the infrastructure in AWS !'
       }
         }
