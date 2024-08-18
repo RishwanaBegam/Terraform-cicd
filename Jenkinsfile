@@ -28,7 +28,7 @@ pipeline{
                 expression { return params.Terraform_Init }
             }
             steps {
-                echo 'Initializing Terraform...'
+                echo 'Initializing your Terraform configuration...'
                 sh ''' terraform -chdir=Terraform/ init '''
             }
         }
@@ -40,7 +40,7 @@ pipeline{
 
        script {
                    withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
-                   echo 'Showing execution plan information...'
+                   echo 'Showing your execution plan for infra creation...'
                    sh 'terraform -chdir=Terraform/ plan'
             }
         }
@@ -53,8 +53,9 @@ pipeline{
       steps{
         script{
         withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
+           echo 'Executing the configuration to create infrastructure in AWS :)'
          sh 'terraform -chdir=Terraform/ apply -auto-approve'
-        echo 'Executing the configuration to create infrastructure in AWS :)'
+        echo '------------------Completed the infrastructure creation---------------------'
       }
     }
       }
@@ -64,13 +65,18 @@ pipeline{
                 expression { return params.Terraform_Destroy }
             }
       steps{
+        script{
+        withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
         sh 'terraform -chdir=Terraform/ destroy'
         echo ' Deleting the infrastructure in AWS !'
+      }
+        }
       }
     }
 }
   post {
         always {
+          echo 'cleaning up the workspace'
             cleanWs()
         }
     }
