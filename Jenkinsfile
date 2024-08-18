@@ -6,6 +6,9 @@ pipeline{
      booleanParam (name:'Terraform_Destroy', defaultValue: false, description:'Destroy the terraform configuration')
   }
   agent any
+   //environment {
+     //   AWS_CREDS = credentials('aws-access-key-secret-ID')
+    //}
   stages{
     stage(Checkout){
        steps {
@@ -33,7 +36,9 @@ pipeline{
                 expression { return params.Terraform_Plan }
             }
       steps{
+        
         echo 'Showing execution plan information...'
+        withAWS(credentials: 'aws-access-key-secret-ID', region: 'us-east-1')
          sh 'terraform -chdir=Terraform/ plan'
       }
     }
