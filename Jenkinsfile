@@ -7,8 +7,9 @@ pipeline{
   }
   agent any
    environment {
-       AWS_CREDS = credentials('aws-access-key-secret-ID')
+          AWS_CREDS = credentials('aws-access-key-secret-ID')
           AWS_REGION = 'us-east-1'
+          TF_LOG = 'DEBUG'
     }
   stages{
     stage(Checkout){
