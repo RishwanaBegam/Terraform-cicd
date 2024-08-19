@@ -43,6 +43,7 @@ pipeline{
        script {
                    withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
                    echo 'Showing your execution plan for infra creation...'
+                     sh 'terraform -chdir=Terraform/ plan -out=tfplan.out'
                    sh ''' terraform -chdir=Terraform/ plan '''
             }
         }
