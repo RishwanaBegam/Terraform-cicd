@@ -31,6 +31,7 @@ pipeline{
             steps {
                 echo 'Initializing your Terraform configuration...'
                 sh ''' terraform -chdir=Terraform/ init '''
+                sh ''' terraform -chdir=Terraform/ validate '''
             }
         }
     stage('Terraform Plan'){
@@ -42,7 +43,7 @@ pipeline{
        script {
                    withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
                    echo 'Showing your execution plan for infra creation...'
-                   sh 'terraform -chdir=Terraform/ plan'
+                   sh ''' terraform -chdir=Terraform/ plan '''
             }
         }
       }
