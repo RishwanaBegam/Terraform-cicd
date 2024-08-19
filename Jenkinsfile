@@ -7,9 +7,9 @@ pipeline{
   }
   agent any
    environment {
-          AWS_CREDS = credentials('aws-access-key-secret-ID')
+          //AWS_CREDS = credentials('aws-access-key-secret-ID')
           AWS_REGION = 'us-east-1'
-          TF_LOG = 'DEBUG'
+          //TF_LOG = 'DEBUG'
     }
   stages{
     stage(Checkout){
@@ -43,7 +43,6 @@ pipeline{
        script {
                    withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
                    echo 'Showing your execution plan for infra creation...'
-                     sh 'terraform -chdir=Terraform/ plan -out=tfplan.out'
                    sh ''' terraform -chdir=Terraform/ plan '''
             }
         }
@@ -55,7 +54,7 @@ pipeline{
             }
       steps{
         script{
-        withAWS(region: "${AWS_REGION}", credentials: "${AWS_CREDS}"){
+         withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
            echo 'Executing the configuration to create infrastructure in AWS :)'
          sh 'terraform -chdir=Terraform/ apply -auto-approve'
         echo '------------------Completed the infrastructure creation---------------------'
@@ -69,7 +68,7 @@ pipeline{
             }
       steps{
         script{
-        withAWS(region: "${AWS_REGION}", credentials: "${AWS_CREDS}"){
+         withAWS(region: "${AWS_REGION}", credentials: 'aws-access-key-secret-ID'){
         sh 'terraform -chdir=Terraform/ init'
         sh 'terraform -chdir=Terraform/ destroy -auto-approve'
         echo '------------------------------Deleted the infrastructure in AWS--------------------------'
