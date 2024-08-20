@@ -15,3 +15,29 @@ sudo mv terraform /usr/local/bin/
 # Verify installation
 terraform --version
 echo "---------------------------------------Terraform Installation Complete--------------------------------------------"
+
+
+echo "********************************************************************************"
+# Update the package manager
+sudo yum update -y
+
+# Install Java (Jenkins dependency)
+sudo amazon-linux-extras install java-openjdk11 -y
+
+# Add Jenkins repository
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+# Install Jenkins
+sudo yum install jenkins -y
+echo "Installing jenkins ..."
+# Start Jenkins service
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+
+# Open port 8080 in the firewall
+sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload
+
+echo "---------------------------------------Jenkins Installation Complete--------------------------------------------"
